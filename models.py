@@ -1,8 +1,9 @@
-from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from sqlalchemy import String
 
-from datetime import datetime
+
+
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -61,26 +62,9 @@ class Watchlist(db.Model):
     name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    stock = db.Column(db.ARRAY(String))
 
     stocks = db.relationship("Stock", secondary="watchlists_stocks", backref="watchlists")
-
-class Stock(db.Model):
-    """Track stock info for Watchlist creation."""
-
-    __tablename__ = "stocks"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable=False)
-    ticker = db.Column(db.String, nullable=False, unique=True)
-
-class WatchlistStock(db.Model):
-    """Mapping of a watchlist to stocks."""
-
-    __tablename__ = "watchlists_stocks"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlists.id'))
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
 
 def connect_db(app):
     """Connect to database."""

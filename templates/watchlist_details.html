@@ -7,12 +7,14 @@
     <thead>
         <th scope="col">Company Name</th>
         <th scope="col">Ticker</th>
+        <th scope="col">Price</th>
     </thead>
     <tbody>
-        {% for stock in watchlist.stocks %}
+        {% for stock in data.quoteResponse.result %}
             <tr>
-                <td><a href="/stocks/{{stock.ticker}}">{{stock.name}}</a></td>
-                <td>{{stock.ticker}}</td>
+                <td><a href="/stocks/{{stock.symbol}}">{{stock.shortName}}</a></td>
+                <td>{{stock.symbol}}</td>
+                <td>{{stock.regularMarketPrice}}</td>
             </tr>
         {% endfor %}
     </tbody>

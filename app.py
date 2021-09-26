@@ -5,7 +5,7 @@ import requests
 from flask import Flask, render_template, redirect, session, g, json, request
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from werkzeug.wrappers.response import Response
+
 
 from forms import UserSignup, LoginForm, WatchlistForm
 from models import db, connect_db, User, Stock, Watchlist, WatchlistStock
@@ -123,7 +123,6 @@ def stock_details(stock_ticker):
     """Fetch data from API about stock and display the data."""
     stock_ticker = stock_ticker.upper()
     stock_db = db.session.query(Stock.id, Stock.name, Stock.ticker).filter(Stock.ticker == stock_ticker).all()
-    print(stock_db)
     try:
         stock_id = stock_db[0][0]
     except:
@@ -162,36 +161,40 @@ def watchlists():
 def watchlists_details(watchlist_id):
     """Display watchlist details and allow user to add and remove stocks from list."""
     watchlist = Watchlist.query.get_or_404(watchlist_id)
+    stocks = ",".join(watchlist.stock)
 
-    return render_template('watchlist_details.html', watchlist=watchlist)
+    URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
+
+    querystring = {"region":"US", "symbols":stocks}
+    headers = {
+        'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        'x-rapidapi-key': "f44f7ac958mshe9ca06bd686a456p16db53jsnd6163305a415"
+    }
+    response = requests.request("GET", URL, headers=headers, params=querystring)
+    data = json.loads(response.text)
+    
+
+    return render_template('watchlist_details.html', watchlist=watchlist, data=data)
 
 @app.route('/update-watchlist', methods=["POST", "GET"])
 def update_watchlist():
     stocklist = []
     watchlist_id = request.args.get('watchlist')
-    stock_name = request.args.get('stock')
     ticker = request.args.get('ticker')
-    stock_id = request.args.get('stockId')
-    stock = Stock.query.filter_by(ticker = ticker).first()
     watchlist = Watchlist.query.get_or_404(watchlist_id)
-    for stock in watchlist.stocks:
-        stocklist.append(stock.ticker)
-    # check to see if stock exists in database. if not then add it.
-    if stock_id == "None":
-        new_stock = Stock(name=stock_name, ticker=ticker)
-        db.session.add(new_stock)
-        db.session.commit()
-    stock = Stock.query.filter_by(ticker = ticker).first()
-    # check to see if the stock is already in the watchlist so that it can be removed instead.
-    if stock.ticker in stocklist:
-        watchlist.stocks.remove(stock)
-        db.session.commit()
-        return "OK"
-    # add the stock to the watchlist
-    watchlist.stocks.append(stock)
+    
+    for stock in watchlist.stock:
+        stocklist.append(stock)
+    
+    if ticker in stocklist:
+        stocklist.remove(ticker)
+    else:
+        stocklist.append(ticker)
+    
+    watchlist.stock = stocklist
     db.session.commit()
     # should return a object instead of a string or something
-    return f"{stock.id}"
+    return "OK"
 
 ##############################################################################
 # Home route
