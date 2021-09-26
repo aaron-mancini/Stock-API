@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{watchlist.name}}</h1>
+<p>{{watchlist.description}}</p>
+<table class="table">
+    <thead>
+        <th scope="col">Company Name</th>
+        <th scope="col">Ticker</th>
+    </thead>
+    <tbody>
+        {% for stock in watchlist.stocks %}
+            <tr>
+                <td>{{stock.name}}</td>
+                <td>{{stock.ticker}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

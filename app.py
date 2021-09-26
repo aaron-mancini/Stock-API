@@ -154,8 +154,9 @@ def watchlists():
 @app.route('/watchlists/<watchlist_id>')
 def watchlists_details(watchlist_id):
     """Display watchlist details and allow user to add and remove stocks from list."""
-    # get specific watchlist and display the stock list
-    return render_template('watchlist_details.html')
+    watchlist = Watchlist.query.get_or_404(watchlist_id)
+
+    return render_template('watchlist_details.html', watchlist=watchlist)
 
 @app.route('/update-watchlist', methods=["POST", "GET"])
 def update_watchlist():
