@@ -190,6 +190,7 @@ def update_watchlist():
     # add the stock to the watchlist
     watchlist.stocks.append(stock)
     db.session.commit()
+    # should return a object instead of a string or something
     return f"{stock.id}"
 
 ##############################################################################

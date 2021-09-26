@@ -13,7 +13,7 @@ $("#add-stock").on("click", "p", async function(evt) {
         method: 'POST',
         url: "http://127.0.0.1:5000/update-watchlist",
         params: {watchlist: $watchlistId, stock: $stockName, ticker: $ticker, stockId: $stockId}})
-    if (res.data !== "OK") {
+    if ($stockId == "None") {
         $("#stock-name").parent().attr("id", `${res.data}`)
     }
 });
