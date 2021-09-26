@@ -168,7 +168,7 @@ def watchlists_details(watchlist_id):
     querystring = {"region":"US", "symbols":stocks}
     headers = {
         'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
-        'x-rapidapi-key': "f44f7ac958mshe9ca06bd686a456p16db53jsnd6163305a415"
+        'x-rapidapi-key': api_key
     }
     response = requests.request("GET", URL, headers=headers, params=querystring)
     data = json.loads(response.text)
