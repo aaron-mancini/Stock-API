@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 id="stock-name">{{stock.price.shortName}}</h1>
+<h2 id="ticker">{{stock.price.symbol}}</h2>
+<h3>Price: {{stock.price.regularMarketOpen.raw}}</h3>
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Add to watchlist
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="add-stock">
+        {% for wl in g.user.watchlists %}
+            <p class="dropdown-item" id="{{wl.id}}">{{wl.name}}</p>
+        {% endfor %}
+    </div>
+  </div>
+{% endblock %}

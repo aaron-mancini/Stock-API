@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <form method="POST" id="user_form">
+                {{ form.hidden_tag() }}
+
+                {% for field in form if field.widget.input_type != 'hidden' %}
+                {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+                <div class="form-group">{{ field(placeholder=field.label.text, class="form-control") }}</div>
+                
+                {% endfor %}
+
+                <button class="btn btn-primary btn-block btn-lg">Log in</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
