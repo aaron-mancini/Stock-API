@@ -1,3 +1,4 @@
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -70,7 +71,7 @@ class Stock(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
-    ticker = db.Column(db.String, nullable=False)
+    ticker = db.Column(db.String, nullable=False, unique=True)
 
 class WatchlistStock(db.Model):
     """Mapping of a watchlist to stocks."""

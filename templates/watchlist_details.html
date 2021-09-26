@@ -11,7 +11,7 @@
     <tbody>
         {% for stock in watchlist.stocks %}
             <tr>
-                <td>{{stock.name}}</td>
+                <td><a href="/stocks/{{stock.ticker}}">{{stock.name}}</a></td>
                 <td>{{stock.ticker}}</td>
             </tr>
         {% endfor %}

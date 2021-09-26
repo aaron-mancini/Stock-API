@@ -121,7 +121,14 @@ def stock_redirect():
 @app.route('/stocks/<stock_ticker>')
 def stock_details(stock_ticker):
     """Fetch data from API about stock and display the data."""
-    # add API request and sort out the data
+    stock_ticker = stock_ticker.upper()
+    stock_db = db.session.query(Stock.id, Stock.name, Stock.ticker).filter(Stock.ticker == stock_ticker).all()
+    print(stock_db)
+    try:
+        stock_id = stock_db[0][0]
+    except:
+        stock_id = None
+
     URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary"
     querystring = {"symbol":f"{stock_ticker}", "region":"US"}
     headers = {
@@ -130,7 +137,7 @@ def stock_details(stock_ticker):
     }
     response = requests.request("GET", URL, headers=headers, params=querystring)
     stock = json.loads(response.text)
-    return render_template('stock.html', stock=stock)
+    return render_template('stock.html', stock=stock, stock_id=stock_id)
 
 ##############################################################################
 # Routes for logged in 'Users'
@@ -164,12 +171,13 @@ def update_watchlist():
     watchlist_id = request.args.get('watchlist')
     stock_name = request.args.get('stock')
     ticker = request.args.get('ticker')
+    stock_id = request.args.get('stockId')
     stock = Stock.query.filter_by(ticker = ticker).first()
     watchlist = Watchlist.query.get_or_404(watchlist_id)
     for stock in watchlist.stocks:
         stocklist.append(stock.ticker)
     # check to see if stock exists in database. if not then add it.
-    if stock == None:
+    if stock_id == "None":
         new_stock = Stock(name=stock_name, ticker=ticker)
         db.session.add(new_stock)
         db.session.commit()
@@ -182,7 +190,7 @@ def update_watchlist():
     # add the stock to the watchlist
     watchlist.stocks.append(stock)
     db.session.commit()
-    return "OK"
+    return f"{stock.id}"
 
 ##############################################################################
 # Home route
