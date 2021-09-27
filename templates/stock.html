@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="{{stock_id}}">
+<div>
     <h1 id="stock-name">{{stock.price.shortName}}</h1>
     <h2 id="ticker">{{stock.price.symbol}}</h2>
     <h3>Price: {{stock.price.regularMarketOpen.raw}}</h3>

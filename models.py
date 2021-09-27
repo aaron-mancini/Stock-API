@@ -64,7 +64,7 @@ class Watchlist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     stock = db.Column(db.ARRAY(String))
 
-    stocks = db.relationship("Stock", secondary="watchlists_stocks", backref="watchlists")
+
 
 def connect_db(app):
     """Connect to database."""

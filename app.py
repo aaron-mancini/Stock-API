@@ -1,5 +1,4 @@
 import os
-import re
 import requests
 
 from flask import Flask, render_template, redirect, session, g, json, request
@@ -8,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 
 
 from forms import UserSignup, LoginForm, WatchlistForm
-from models import db, connect_db, User, Stock, Watchlist, WatchlistStock
+from models import db, connect_db, User, Watchlist
 from keys import api_key, Password
 
 CURR_USER_KEY = "curr_user"
@@ -113,20 +112,16 @@ def logout():
 
 @app.route('/stocks', methods=["POST", "GET"])
 def stock_redirect():
+    """Data from search bar redirects to stock details page."""
     ticker = request.form.get('search')
-    print("###################")
-    print(ticker)
+    
     return redirect(f'/stocks/{ticker}')
 
 @app.route('/stocks/<stock_ticker>')
 def stock_details(stock_ticker):
     """Fetch data from API about stock and display the data."""
     stock_ticker = stock_ticker.upper()
-    stock_db = db.session.query(Stock.id, Stock.name, Stock.ticker).filter(Stock.ticker == stock_ticker).all()
-    try:
-        stock_id = stock_db[0][0]
-    except:
-        stock_id = None
+    
 
     URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary"
     querystring = {"symbol":f"{stock_ticker}", "region":"US"}
@@ -136,7 +131,7 @@ def stock_details(stock_ticker):
     }
     response = requests.request("GET", URL, headers=headers, params=querystring)
     stock = json.loads(response.text)
-    return render_template('stock.html', stock=stock, stock_id=stock_id)
+    return render_template('stock.html', stock=stock)
 
 ##############################################################################
 # Routes for logged in 'Users'
@@ -178,6 +173,7 @@ def watchlists_details(watchlist_id):
 
 @app.route('/update-watchlist', methods=["POST", "GET"])
 def update_watchlist():
+    """Called from frontend to add/remove a stock to a watchlist."""
     stocklist = []
     watchlist_id = request.args.get('watchlist')
     ticker = request.args.get('ticker')
