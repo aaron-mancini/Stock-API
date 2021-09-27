@@ -213,6 +213,21 @@ def delete_watchlist(watchlist_id):
 
     return redirect("/")
 
+@app.route('/delete/user', methods=["POST", "GET"])
+def delete_user():
+    """Delete a user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    do_logout()
+
+    db.session.delete(g.user)
+    db.session.commit()
+
+    return redirect("/")
+
 ##############################################################################
 # Home route
 
