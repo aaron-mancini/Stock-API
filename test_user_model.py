@@ -2,7 +2,7 @@ import os
 from unittest import TestCase
 from sqlalchemy import exc
 
-from models import db, User, Watchlist
+from models import db, User
 from keys import Password
 
 os.environ['DATABASE_URL'] = f'postgresql://postgres:{Password}@localhost:5432/stocks-test'
@@ -62,6 +62,7 @@ class UserModelTestCase(TestCase):
         self.assertEqual(u.username, "testuser")
         self.assertEqual(len(u.watchlists), 0)
 
+# Signup Tests
     def test_valid_signup(self):
         u_test = User.signup("t1", "t1", "t1", "t1@t1.com", "password")
         uid = 444

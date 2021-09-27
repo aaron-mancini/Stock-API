@@ -64,7 +64,23 @@ class Watchlist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     stock = db.Column(db.ARRAY(String))
 
-
+    @classmethod
+    def add_or_remove_stock(cls, watchlist_id, stock_ticker):
+        """Add or remove a stock from the watchlist."""
+        stocklist = []
+        watchlist = Watchlist.query.get_or_404(watchlist_id)
+        if watchlist.stock != None:
+            for stock in watchlist.stock:
+                stocklist.append(stock)
+    
+        if stock_ticker in stocklist:
+            stocklist.remove(stock_ticker)
+        else:
+            stocklist.append(stock_ticker)
+    
+        watchlist.stock = stocklist
+        db.session.commit()
+        return watchlist
 
 def connect_db(app):
     """Connect to database."""

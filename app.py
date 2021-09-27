@@ -174,21 +174,11 @@ def watchlists_details(watchlist_id):
 @app.route('/update-watchlist', methods=["POST", "GET"])
 def update_watchlist():
     """Called from frontend to add/remove a stock to a watchlist."""
-    stocklist = []
+
     watchlist_id = request.args.get('watchlist')
     ticker = request.args.get('ticker')
-    watchlist = Watchlist.query.get_or_404(watchlist_id)
+    Watchlist.add_or_remove_stock(watchlist_id, ticker)
     
-    for stock in watchlist.stock:
-        stocklist.append(stock)
-    
-    if ticker in stocklist:
-        stocklist.remove(ticker)
-    else:
-        stocklist.append(ticker)
-    
-    watchlist.stock = stocklist
-    db.session.commit()
     # should return a object instead of a string or something
     return "OK"
 
