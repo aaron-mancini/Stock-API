@@ -3,6 +3,7 @@
 {% block content %}
 <h1>{{watchlist.name}}</h1>
 <p>{{watchlist.description}}</p>
+<a href="/delete/watchlist/{{watchlist.id}}">Delete Watchlist</a>
 <table class="table">
     <thead>
         <th scope="col">Company Name</th>
@@ -10,6 +11,7 @@
         <th scope="col">Price</th>
     </thead>
     <tbody>
+        {% if data != None %}
         {% for stock in data.quoteResponse.result %}
             <tr>
                 <td><a href="/stocks/{{stock.symbol}}">{{stock.shortName}}</a></td>
@@ -17,6 +19,7 @@
                 <td>{{stock.regularMarketPrice}}</td>
             </tr>
         {% endfor %}
+        {% endif %}
     </tbody>
 </table>
 {% endblock %}

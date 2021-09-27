@@ -6,7 +6,7 @@
     <h2 id="ticker">{{stock.price.symbol}}</h2>
     <h3>Price: {{stock.price.regularMarketOpen.raw}}</h3>
 </div>
-
+{% if g.user %}
 <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Add to watchlist
@@ -17,4 +17,5 @@
         {% endfor %}
     </div>
   </div>
+{% endif %}
 {% endblock %}

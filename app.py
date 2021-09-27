@@ -1,7 +1,7 @@
 import os
 import requests
 
-from flask import Flask, render_template, redirect, session, g, json, request
+from flask import Flask, render_template, redirect, session, g, json, request, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
@@ -139,6 +139,10 @@ def stock_details(stock_ticker):
 @app.route('/create/watchlist', methods=["GET", "POST"])
 def watchlists():
     """displays a form to create a watchlist"""
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
     form = WatchlistForm()
     
     if form.validate_on_submit():
@@ -155,7 +159,16 @@ def watchlists():
 @app.route('/watchlists/<watchlist_id>')
 def watchlists_details(watchlist_id):
     """Display watchlist details and allow user to add and remove stocks from list."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    data = None
+
     watchlist = Watchlist.query.get_or_404(watchlist_id)
+    if watchlist.stock == None:
+        return render_template('watchlist_details.html', watchlist=watchlist, data=data)
     stocks = ",".join(watchlist.stock)
 
     URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
@@ -181,6 +194,24 @@ def update_watchlist():
     
     # should return a object instead of a string or something
     return "OK"
+
+@app.route('/delete/watchlist/<int:watchlist_id>', methods=["POST", "GET"])
+def delete_watchlist(watchlist_id):
+    """Delete a watchlist."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    wl = Watchlist.query.get_or_404(watchlist_id)
+    if wl.user_id != g.user.id:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    db.session.delete(wl)
+    db.session.commit()
+
+    return redirect("/")
 
 ##############################################################################
 # Home route
