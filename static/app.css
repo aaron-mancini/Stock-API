@@ -1,0 +1,90 @@
+/* darkgrey:#1F2833, black:#0B0C10, beige:#C5C6C7, lightgreen:#66FCF1, drkgreen:#45A29E*/
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #1F2833;
+}
+
+/* Nav styles */
+
+#navLogo {
+    height: 5rem;
+    margin-right: 1rem;
+    border-radius: 3%;
+}
+
+.navbar-custom {
+    background-color: #1F2833 !important;
+}
+
+.nav-link {
+    font-size: 1.5rem;
+    color: #66FCF1 !important;
+}
+
+/* Sign in/Log in styles */
+
+.welcome {
+    color: #66FCF1;
+    margin: 2rem;
+}
+
+.btn-form {
+    color: #45A29E;
+    border-color: #45A29E !important;
+}
+
+.btn-form:hover {
+    background-color: #45A29E;
+    color: #C5C6C7;
+}
+
+/* Watchlist display styles */
+
+#wlName {
+    color: #C5C6C7;
+    margin-left: 2rem;
+}
+
+#wlDesc {
+    color: #C5C6C7;
+    margin-left: 2rem;
+}
+
+tr:nth-child(even) {
+    background-color: #0B0C10;
+}
+
+#wl-table {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.wl-delete {
+    margin-right: 2rem;
+}
+
+.table {
+    border: 1px solid #C5C6C7;
+}
+
+th {
+    color: #66FCF1;
+}
+
+td {
+    color: #C5C6C7;
+}
+
+.neg {
+    color: red;
+}
+
+.pos {
+    color: green;
+}

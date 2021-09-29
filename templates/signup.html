@@ -4,6 +4,7 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-5">
+            <div class="g-signin2 mb-2" data-onsuccess="onSignIn"></div>
             <form method="POST" id="user_form">
                 {{ form.hidden_tag() }}
 
@@ -15,9 +16,13 @@
                 
                 {% endfor %}
 
-                <button class="btn btn-primary btn-block btn-lg">Log in</button>
+                <button class="btn btn-outline-primary btn-block btn-lg btn-form">Sign Up</button>
             </form>
         </div>
     </div>
 </div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}

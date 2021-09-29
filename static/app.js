@@ -55,3 +55,33 @@ debounce($(function(){
         
     });
 }), 500);
+
+// check price change and percent change and add classes based on color.
+
+$(document).ready(function() {
+    $(".price-change").each(function() {
+        let num = this.innerText
+        $(this).addClass( num < 0 ? "neg" : "pos");
+    });
+});
+
+$(document).ready(function() {
+    $(".percent-change").each(function() {
+        let num = this.innerText
+        $(this).addClass( num < 0 ? "neg" : "pos");
+        $(this).append("%")
+    });
+});
+
+// delete watchlist confirm
+
+$(".wl-delete").on("click", function(evt) {
+    evt.preventDefault();
+    id = this.id
+    const response = confirm("Are you sure you want to delete?");
+    if (response == true) {
+        window.location.replace(`http://127.0.0.1:5000/delete/watchlist/${id}`)
+    } else {
+        window.location.replace("https://www.w3schools.com/howto/howto_js_redirect_webpage.asp")
+    }
+});
