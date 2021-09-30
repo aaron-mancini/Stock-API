@@ -10,7 +10,9 @@
     </script>  
     
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js">  
-    </script>  
+    </script> 
+    <link rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"> 
     <link rel="stylesheet" href="/static/app.css">
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css"
         rel="stylesheet" type="text/css" />  
@@ -25,7 +27,7 @@
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="form-inline my-2 my-lg-0" action="/stocks" method="POST">
+          <form id="search-form" class="form-inline my-2 my-lg-0" action="/stocks" method="POST">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
@@ -73,6 +75,7 @@
     </div>   
 {% block scripts %}
 {% endblock %}
+
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -17,6 +17,7 @@
             <th scope="col">Price</th>
             <th scope="col">Price Change</th>
             <th scope="col">Price Change %</th>
+            <th scope="col">Remove</th>
         </thead>
         <tbody>
             {% if data != None %}
@@ -26,6 +27,7 @@
                     <td>${{stock.regularMarketPrice}}</td>
                     <td class="price-change">{{stock.regularMarketChange|round(2)}}</td>
                     <td class="percent-change">{{stock.regularMarketChangePercent|round(2)}}</td>
+                    <td><i class="fas fa-trash remove-stock" id="{{stock.symbol}}"></i></td>
                 </tr>
             {% endfor %}
             {% endif %}

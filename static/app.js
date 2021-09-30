@@ -52,7 +52,11 @@ debounce($(function(){
     
             done(searchTerms);
         },
-        
+        minLength: 2,
+        select: function(event, ui) {
+            $("#search").val(ui.item.value)
+            $("#search-form").submit();
+        }
     });
 }), 500);
 
@@ -81,7 +85,39 @@ $(".wl-delete").on("click", function(evt) {
     const response = confirm("Are you sure you want to delete?");
     if (response == true) {
         window.location.replace(`http://127.0.0.1:5000/delete/watchlist/${id}`)
-    } else {
-        window.location.replace("https://www.w3schools.com/howto/howto_js_redirect_webpage.asp")
-    }
+    };
+});
+
+$(".remove-stock").on("click", async function(evt) {
+    evt.preventDefault();
+    let row = $(this).parent().parent()
+    let $ticker = this.id
+    let $watchlistId = $(".wl-delete").attr("id")
+    
+    const res = await axios.request({
+        method: 'POST',
+        url: "http://127.0.0.1:5000/update-watchlist",
+        params: {watchlist: $watchlistId, ticker: $ticker}})
+
+    row.remove()
+    
+})
+
+// check price change and percent change, for stock info not watchlist info.
+
+$(document).ready(function() {
+    $(".stock-price-change").each(function() {
+        let num = this.innerText
+        $(this).addClass( num < 0 ? "neg" : "pos");
+    });
+});
+
+// try removing the each function. you only need one thing not multiple
+$(document).ready(function() {
+    $(".stock-percent-change").each(function() {
+        let num = this.innerText;
+        
+        $(this).addClass( num < 0 ? "neg" : "pos");
+        $(this).append("%")
+    });
 });

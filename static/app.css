@@ -13,8 +13,10 @@ body {
 
 #navLogo {
     height: 5rem;
-    margin-right: 1rem;
+    margin-right: 2rem;
+    margin-left: 1rem;
     border-radius: 3%;
+    
 }
 
 .navbar-custom {
@@ -86,5 +88,28 @@ td {
 }
 
 .pos {
-    color: green;
+    
+    color: greenyellow;
+}
+
+.remove-stock:hover {
+    cursor: pointer;
+}
+
+/* stock page styles */
+
+.stock-content {
+    margin: 2rem;
+}
+
+.stock-title {
+    color: #66FCF1;
+}
+
+hr {
+    border: 1px solid #C5C6C7;
+}
+
+.stock-info {
+    color: #C5C6C7;
 }
