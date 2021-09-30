@@ -9,7 +9,7 @@ from jinja2.exceptions import UndefinedError
 
 from forms import UserSignup, LoginForm, WatchlistForm
 from models import db, connect_db, User, Watchlist
-from keys import api_key, Password
+# from keys import api_key, Password
 
 CURR_USER_KEY = "curr_user"
 
