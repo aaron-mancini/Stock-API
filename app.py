@@ -136,6 +136,7 @@ def stock_details(stock_ticker):
 ##############################################################################
 # Routes for logged in 'Users'
 
+
 @app.route('/create/watchlist', methods=["GET", "POST"])
 def watchlists():
     """displays a form to create a watchlist"""

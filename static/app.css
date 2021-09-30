@@ -28,6 +28,30 @@ body {
     color: #66FCF1 !important;
 }
 
+/* Homepage styles */
+
+#home-content {
+    box-sizing: border-box;
+    height: 40rem;
+    padding-top: 6rem;
+    background-color: #0B0C10;
+}
+
+#home-header {
+    color: #45A29E;
+    font-size: 6rem;
+}
+
+#home-details {
+    color: #45A29E;
+    font-size: 3rem;
+}
+
+.btn-signup {
+    background-color: #66FCF1;
+    color: #0B0C10 !important;
+}
+
 /* Sign in/Log in styles */
 
 .welcome {
@@ -92,7 +116,7 @@ td {
     color: greenyellow;
 }
 
-.remove-stock:hover {
+.remove-stock, .user-delete:hover {
     cursor: pointer;
 }
 
@@ -112,4 +136,27 @@ hr {
 
 .stock-info {
     color: #C5C6C7;
+}
+
+/* mainly for homepage font */
+@media (max-width: 1200px) { 
+    #home-content {
+        height: 40rem;
+        padding-top: 6rem;
+    }
+    
+    #home-header {
+        font-size: 3rem;
+    }
+    
+    #home-details {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) { 
+    #home-content {
+        padding-top: 3rem;
+        text-align: center;
+    }
 }

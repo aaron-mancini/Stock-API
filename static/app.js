@@ -88,6 +88,19 @@ $(".wl-delete").on("click", function(evt) {
     };
 });
 
+// delete user confirm
+
+$(".user-delete").on("click", function(evt) {
+    evt.preventDefault();
+    id = this.id
+    const response = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    if (response == true) {
+        window.location.replace(`http://127.0.0.1:5000/delete/user/${id}`)
+    };
+});
+
+// remove a stock from watchlist page
+
 $(".remove-stock").on("click", async function(evt) {
     evt.preventDefault();
     let row = $(this).parent().parent()
