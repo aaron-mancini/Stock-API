@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="stock-content">
   <div class="d-flex">
     <div class="mr-auto stock-title">
       <h1 id="stock-name">{{stock.price.shortName}} | {{stock.price.symbol}}</h1>
+      <p id="ticker" hidden>{{stock.price.symbol}}</p>
     </div>
     <div>
       {% if g.user %}
-        <div class="dropdown">
+        <div class="btn-group">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add to watchlist
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="add-stock">
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" id="add-stock">
               {% for wl in g.user.watchlists %}
-                  <p class="dropdown-item" id="{{wl.id}}">{{wl.name}}</p>
+                  <p class="dropdown-item" id="{{wl.id}}" data-wlName="{{wl.name}}">
+                    {% if stock.price.symbol in wl.stock %}
+                    Remove from
+                    {% else %}
+                    Add to
+                    {% endif %}
+                    {{wl.name}}</p>
               {% endfor %}
           </div>
         </div>
@@ -28,12 +34,29 @@
         <h3>${{stock.price.regularMarketOpen.raw}}</h3>
       </div>
       <div class="p-2">
-        <h3 class="stock-price-change">{{(stock.price.regularMarketChangePercent.raw * 100)|round(2)}}</h3>
+        <h3 class="stock-percent-change">{{(stock.price.regularMarketChangePercent.raw * 100)|round(2)}}</h3>
       </div>
       <div class="p-2 stock-price-change">
         <h3>{{stock.price.regularMarketChange.fmt}}</h3>
       </div>
-    </div>   
+    </div>
+    <h3>About</h3>   
+    <p>{{stock.summaryProfile.longBusinessSummary}}</p>
+    <hr>
+    <div class="d-flex">
+      <div class="p-2">Previous Close: {{stock.price.regularMarketPreviousClose.fmt}}</div>
+      <div class="p-2">Average Volume: {{stock.summaryDetail.averageVolume.fmt}}</div>
+      <div class="p-2">Year Range: {{stock.summaryDetail.fiftyTwoWeekLow.fmt}}-{{stock.summaryDetail.fiftyTwoWeekHigh.fmt}}</div>
+    </div>
+    <hr>
+    <h3>News</h3>
+    <div id="news">
+      {% for article in news.news %}
+      <div>{{article.title}}</div>
+      {% endfor %}
+    </div>
+    
+    
     
   </div>
   

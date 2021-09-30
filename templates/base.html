@@ -64,13 +64,18 @@
           
         </div>
       </nav>
-      {% for category, message in get_flashed_messages(with_categories=True) %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
+      
+      
     <div id="content">
+      <div class="d-flex justify-content-center">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert flash-{{ category }}">{{ message }} <i class="fas fa-times-circle p-2 flash-delete"></i></div>
+        {% endfor %}
+      </div>
       {% block content %}
       {% endblock %}
-    </div>   
+    </div>
+  <section id="footer"></section>   
 {% block scripts %}
 {% endblock %}
 

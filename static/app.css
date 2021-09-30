@@ -1,13 +1,23 @@
 /* darkgrey:#1F2833, black:#0B0C10, beige:#C5C6C7, lightgreen:#66FCF1, drkgreen:#45A29E*/
 
-html, body {
-    margin: 0;
-    height: 100%;
-}
-
 body {
     background-color: #1F2833;
 }
+
+#footer {
+    height: 50rem;
+    background-color: #1F2833;
+}
+
+.flash-red {
+    background-color: red;
+}
+
+.flash-green {
+    background-color: #66FCF1;
+}
+
+
 
 /* Nav styles */
 
@@ -116,7 +126,7 @@ td {
     color: greenyellow;
 }
 
-.remove-stock, .user-delete:hover {
+.remove-stock, .user-delete, i:hover {
     cursor: pointer;
 }
 

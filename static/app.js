@@ -2,9 +2,15 @@
 // Add or remove stock from watchlist.
 $("#add-stock").on("click", "p", async function(evt) {
     evt.preventDefault();
-    
     let $ticker = $("#ticker").text();
     let $watchlistId = this.id;
+    let $watchlistInfo = $(`#${$watchlistId}`)
+    let wlname = $watchlistInfo.data().wlname
+    if ($watchlistInfo.text().includes("Add")) {
+        $watchlistInfo.text(`Remove from ${wlname}`)
+    } else {
+        $watchlistInfo.text(`Add to ${wlname}`)
+    }
     
     const res = await axios.request({
         method: 'POST',
@@ -34,10 +40,10 @@ debounce($(function(){
             
             const res = await axios.request({
                 method: 'GET',
-                url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete',
+                url: 'https://yh-finance.p.rapidapi.com/auto-complete',
                 params: {q: query.term, region: 'US'},
                 headers: {
-                    'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+                    'x-rapidapi-host': 'yh-finance.p.rapidapi.com',
                     'x-rapidapi-key': apiKey
                 }
             })
@@ -99,6 +105,13 @@ $(".user-delete").on("click", function(evt) {
     };
 });
 
+// remove flash message
+
+$(".flash-delete").on("click", function(evt) {
+    evt.preventDefault();
+    $(this).parent().remove()
+})
+
 // remove a stock from watchlist page
 
 $(".remove-stock").on("click", async function(evt) {
@@ -121,7 +134,8 @@ $(".remove-stock").on("click", async function(evt) {
 $(document).ready(function() {
     $(".stock-price-change").each(function() {
         let num = this.innerText
-        $(this).addClass( num < 0 ? "neg" : "pos");
+       
+        $(this).addClass( num < 0 ? "neg" : "pos");  
     });
 });
 

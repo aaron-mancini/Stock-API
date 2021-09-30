@@ -4,6 +4,7 @@ import requests
 from flask import Flask, render_template, redirect, session, g, json, request, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
+from jinja2.exceptions import UndefinedError
 
 
 from forms import UserSignup, LoginForm, WatchlistForm
@@ -68,12 +69,12 @@ def signup():
             db.session.commit()
 
         except IntegrityError:
-            # add flash messages for error.
+            flash(f"Invalid signup! Please try again", "red")
             return render_template('signup.html', form=form)
         
         do_login(user)
 
-        # add flash message for successful signup.
+        flash(f"Welcome {user.username}! Thanks for joining!", "green")
         return redirect("/")
 
     else:
@@ -91,11 +92,11 @@ def login():
 
         if user:
             do_login(user)
-            # add flash for login
+            flash(f"Welcome back {user.username}!", "green")
             return redirect('/')
+        flash("Incorrect username or password", "red")
         
-        # add flash for invalid user
-
+    
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -103,7 +104,7 @@ def logout():
     """Logout a user."""
 
     do_logout()
-    # add flash for success
+    flash(f"Logged Out! Thanks for visiting!", "green")
     return redirect('/')
 
 
@@ -123,15 +124,23 @@ def stock_details(stock_ticker):
     stock_ticker = stock_ticker.upper()
     
 
-    URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary"
+    URL = "https://yh-finance.p.rapidapi.com/stock/v2/get-summary"
     querystring = {"symbol":f"{stock_ticker}", "region":"US"}
     headers = {
-    'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
+    'x-rapidapi-host': "yh-finance.p.rapidapi.com",
     'x-rapidapi-key': api_key
     }
-    response = requests.request("GET", URL, headers=headers, params=querystring)
+    try: 
+        response = requests.request("GET", URL, headers=headers, params=querystring)
+    except:
+        flash("Error. API is down or invallid search term!", "red")
+
+    newsResponse = requests.request("GET", 'https://yh-finance.p.rapidapi.com/auto-complete', headers=headers, params={"q":f"{stock_ticker}", "region":"US"})
+    news = json.loads(newsResponse.text)
+                                
+
     stock = json.loads(response.text)
-    return render_template('stock.html', stock=stock)
+    return render_template('stock.html', stock=stock, news=news)
 
 ##############################################################################
 # Routes for logged in 'Users'
@@ -141,7 +150,7 @@ def stock_details(stock_ticker):
 def watchlists():
     """displays a form to create a watchlist"""
     if not g.user:
-        flash("Access unauthorized.", "danger")
+        flash("Access unauthorized.", "red")
         return redirect("/")
 
     form = WatchlistForm()
@@ -162,21 +171,26 @@ def watchlists_details(watchlist_id):
     """Display watchlist details and allow user to add and remove stocks from list."""
 
     if not g.user:
-        flash("Access unauthorized.", "danger")
+        flash("Access unauthorized.", "red")
         return redirect("/")
     
     data = None
 
     watchlist = Watchlist.query.get_or_404(watchlist_id)
+
+    if watchlist.user_id != g.user.id:
+        flash("Access unauthorized.", "red")
+        return redirect("/")
+
     if watchlist.stock == None:
         return render_template('watchlist_details.html', watchlist=watchlist, data=data)
     stocks = ",".join(watchlist.stock)
 
-    URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
+    URL = "https://yh-finance.p.rapidapi.com/market/v2/get-quotes"
 
     querystring = {"region":"US", "symbols":stocks}
     headers = {
-        'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        'x-rapidapi-host': "yh-finance.p.rapidapi.com",
         'x-rapidapi-key': api_key
     }
     response = requests.request("GET", URL, headers=headers, params=querystring)
@@ -188,12 +202,16 @@ def watchlists_details(watchlist_id):
 @app.route('/update-watchlist', methods=["POST", "GET"])
 def update_watchlist():
     """Called from frontend to add/remove a stock to a watchlist."""
-
+    
     watchlist_id = request.args.get('watchlist')
     ticker = request.args.get('ticker')
     Watchlist.add_or_remove_stock(watchlist_id, ticker)
+    # watchlist = Watchlist.query.get_or_404(watchlist_id)
+    # if ticker in watchlist.stock:
+    #     flash(f"Added '{ticker}' to {watchlist.name}!")
+    # else: flash(f"Removed {ticker} from {watchlist.name}")
     
-    # should return a object instead of a string or something
+    
     return "OK"
 
 @app.route('/delete/watchlist/<int:watchlist_id>', methods=["POST", "GET"])
@@ -212,6 +230,7 @@ def delete_watchlist(watchlist_id):
     db.session.delete(wl)
     db.session.commit()
 
+    flash("Successfully deleted your watchlist!", "green")
     return redirect("/")
 
 @app.route('/delete/user', methods=["POST", "GET"])
@@ -226,7 +245,7 @@ def delete_user():
 
     db.session.delete(g.user)
     db.session.commit()
-
+    flash("Successfully deleted your account!", "green")
     return redirect("/")
 
 ##############################################################################
@@ -235,3 +254,17 @@ def delete_user():
 @app.route('/')
 def home():
     return render_template('homepage.html')
+
+##############################################################################
+# Errors
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+
+    return render_template('404.html'), 404
+
+# @app.errorhandler(UndefinedError)
+# def undefinded_error(e):
+#     flash("Server is down or you entered an invalid term!", "red")
+#     return redirect("/")
