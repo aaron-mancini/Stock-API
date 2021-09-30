@@ -51,9 +51,15 @@
     <hr>
     <h3>News</h3>
     <div id="news">
-      {% for article in news.news %}
-      <div>{{article.title}}</div>
-      {% endfor %}
+      <table class="table">
+        <tbody>
+          {% for article in news.news %}
+            <tr class="p-2"><td><a href="{{article.link}}">{{article.title}}</a></td></tr>
+          {% endfor %}
+        </tbody>
+        
+      </table>
+      
     </div>
     
     

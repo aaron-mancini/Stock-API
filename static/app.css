@@ -38,6 +38,15 @@ body {
     color: #66FCF1 !important;
 }
 
+.btn-search {
+    color: #66FCF1;
+    border-color: #45A29E !important;
+}
+
+.btn-search:hover {
+    background-color: #66FCF1;
+}
+
 /* Homepage styles */
 
 #home-content {
