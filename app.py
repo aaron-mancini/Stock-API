@@ -11,18 +11,19 @@ from forms import UserSignup, LoginForm, WatchlistForm
 from models import db, connect_db, User, Watchlist
 # from keys import api_key, Password
 
+
 CURR_USER_KEY = "curr_user"
 
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', f'postgresql://postgres:{Password}@localhost:5432/stocks'))
+    os.environ.get('DATABASE_URL'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
