@@ -43,7 +43,7 @@ debounce($(function(){
                 method: 'GET',
                 url: "https://stock-watch-news.herokuapp.com/search",
                 params: {query: query}})
-            console.log(res.data.quotes)
+            console.log(res)
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];
             for (let stock of stockSuggestions) {

@@ -274,7 +274,8 @@ def search():
         'x-rapidapi-key': api_key
         }
     response = requests.request("GET", url, headers=headers, params=querystring)
-    return response.text
+    data = json.loads(response.text)
+    return data
 
 ##############################################################################
 # Errors
