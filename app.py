@@ -212,10 +212,6 @@ def update_watchlist():
     watchlist_id = request.args.get('watchlist')
     ticker = request.args.get('ticker')
     Watchlist.add_or_remove_stock(watchlist_id, ticker)
-    # watchlist = Watchlist.query.get_or_404(watchlist_id)
-    # if ticker in watchlist.stock:
-    #     flash(f"Added '{ticker}' to {watchlist.name}!")
-    # else: flash(f"Removed {ticker} from {watchlist.name}")
     
     
     return "OK"
@@ -266,10 +262,10 @@ def home():
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("query")
-    print(query)
-    
+    print(query.term)
+
     url = "https://yh-finance.p.rapidapi.com/auto-complete"
-    querystring = {"q":query,"region":"US"}
+    querystring = {"q":query.term,"region":"US"}
     headers = {
         'x-rapidapi-host': "yh-finance.p.rapidapi.com",
         'x-rapidapi-key': api_key
