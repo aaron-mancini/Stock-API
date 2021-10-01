@@ -186,8 +186,10 @@ def watchlists_details(watchlist_id):
     if watchlist.user_id != g.user.id:
         flash("Access unauthorized.", "red")
         return redirect("/")
-
-    if watchlist.stock == None:
+    print("****************")
+    print(watchlist.stock)
+    print("****************")
+    if watchlist.stock == None or watchlist.stock == []:
         return render_template('watchlist_details.html', watchlist=watchlist, data=data)
     stocks = ",".join(watchlist.stock)
 
