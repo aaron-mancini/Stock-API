@@ -33,16 +33,12 @@ const debounce = (func, delay) => {
 
 debounce($(function(){
     $('#search').autocomplete({
-        source: async function (query, done) {
-            // Do Ajax call or lookup locally, when done,
-            // call the callback and pass your results:
-            // let searchTerm = this.value;
-            console.log(query)
+        source: async function (query, done) {           
 
             const res = await axios.request({
                 method: 'GET',
                 url: "https://stock-watch-news.herokuapp.com/search",
-                params: {query: query.term}})
+                params: {query: query}})
             console.log(res)
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];
