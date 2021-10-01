@@ -3,6 +3,7 @@ import re
 import requests
 
 from flask import Flask, render_template, redirect, session, g, json, request, flash
+from flask_cors import CORS
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from jinja2.exceptions import UndefinedError
@@ -18,6 +19,7 @@ CURR_USER_KEY = "curr_user"
 
 
 app = Flask(__name__)
+cors = CORS(app)
 
 uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
