@@ -141,3 +141,5 @@ $(document).ready(function() {
         $(this).append("%")
     });
 });
+
+$("#search").css('max-width','15rem')
