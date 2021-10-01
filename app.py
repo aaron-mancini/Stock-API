@@ -6,6 +6,7 @@ from flask import Flask, render_template, redirect, session, g, json, request, f
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from jinja2.exceptions import UndefinedError
+from werkzeug.wrappers import response
 
 
 from forms import UserSignup, LoginForm, WatchlistForm
@@ -186,9 +187,7 @@ def watchlists_details(watchlist_id):
     if watchlist.user_id != g.user.id:
         flash("Access unauthorized.", "red")
         return redirect("/")
-    print("****************")
-    print(watchlist.stock)
-    print("****************")
+
     if watchlist.stock == None or watchlist.stock == []:
         return render_template('watchlist_details.html', watchlist=watchlist, data=data)
     stocks = ",".join(watchlist.stock)
@@ -261,6 +260,21 @@ def delete_user():
 @app.route('/')
 def home():
     return render_template('homepage.html')
+
+# Search bar
+
+@app.route("/search", methods=["GET"])
+def search():
+    query = request.args.get("query")
+
+    url = "https://yh-finance.p.rapidapi.com/auto-complete"
+    querystring = {"q":query,"region":"US"}
+    headers = {
+        'x-rapidapi-host': "yh-finance.p.rapidapi.com",
+        'x-rapidapi-key': api_key
+        }
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    return response.text
 
 ##############################################################################
 # Errors

@@ -37,16 +37,13 @@ debounce($(function(){
             // Do Ajax call or lookup locally, when done,
             // call the callback and pass your results:
             // let searchTerm = this.value;
-            
+
+
             const res = await axios.request({
                 method: 'GET',
-                url: 'https://yh-finance.p.rapidapi.com/auto-complete',
-                params: {q: query.term, region: 'US'},
-                headers: {
-                    'x-rapidapi-host': 'yh-finance.p.rapidapi.com',
-                    'x-rapidapi-key': apiKey
-                }
-            })
+                url: "https://stock-watch-news.herokuapp.com/search",
+                params: {query: query}})
+            console.log(res.data.quotes)
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];
             for (let stock of stockSuggestions) {
