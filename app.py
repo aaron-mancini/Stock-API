@@ -264,7 +264,7 @@ def search():
     query = request.args.get("query")
 
     url = "https://yh-finance.p.rapidapi.com/auto-complete"
-    querystring = {"q":query.term,"region":"US"}
+    querystring = {"q":query,"region":"US"}
     headers = {
         'x-rapidapi-host': "yh-finance.p.rapidapi.com",
         'x-rapidapi-key': api_key

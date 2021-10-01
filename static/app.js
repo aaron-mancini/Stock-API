@@ -38,7 +38,7 @@ debounce($(function(){
             const res = await axios.request({
                 method: 'GET',
                 url: "https://stock-watch-news.herokuapp.com/search",
-                params: {query: query}})
+                params: {query: query.term}})
             console.log(res)
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];
