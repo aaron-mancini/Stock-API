@@ -37,12 +37,12 @@ debounce($(function(){
             // Do Ajax call or lookup locally, when done,
             // call the callback and pass your results:
             // let searchTerm = this.value;
-
+            console.log(query)
 
             const res = await axios.request({
                 method: 'GET',
                 url: "https://stock-watch-news.herokuapp.com/search",
-                params: {query: query}})
+                params: {query: query.term}})
             console.log(res)
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];

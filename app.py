@@ -262,6 +262,7 @@ def home():
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("query")
+    print(query)
     print(query.term)
 
     url = "https://yh-finance.p.rapidapi.com/auto-complete"
