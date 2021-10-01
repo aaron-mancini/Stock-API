@@ -15,7 +15,9 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" id="add-stock">
               {% for wl in g.user.watchlists %}
                   <p class="dropdown-item" id="{{wl.id}}" data-wlName="{{wl.name}}">
-                    {% if wl.stock != None %}
+                    {% if wl.stock == None %}
+                    Add to
+                    {% else %}
                     {% if stock.price.symbol in wl.stock %}
                     Remove from
                     {% else %}
