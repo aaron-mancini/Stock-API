@@ -142,4 +142,3 @@ $(document).ready(function() {
     });
 });
 
-$("#search").css('max-width','7rem')
