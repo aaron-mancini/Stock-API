@@ -14,7 +14,7 @@ $("#add-stock").on("click", "p", async function(evt) {
     
     const res = await axios.request({
         method: 'POST',
-        url: "http://127.0.0.1:5000/update-watchlist",
+        url: "https://stock-watch-news.herokuapp.com/update-watchlist",
         params: {watchlist: $watchlistId, ticker: $ticker}})
     
 });
@@ -90,7 +90,7 @@ $(".wl-delete").on("click", function(evt) {
     id = this.id
     const response = confirm("Are you sure you want to delete?");
     if (response == true) {
-        window.location.replace(`http://127.0.0.1:5000/delete/watchlist/${id}`)
+        window.location.replace(`https://stock-watch-news.herokuapp.com/delete/watchlist/${id}`)
     };
 });
 
@@ -101,7 +101,7 @@ $(".user-delete").on("click", function(evt) {
     id = this.id
     const response = confirm("Are you sure you want to delete your account? This cannot be undone.");
     if (response == true) {
-        window.location.replace(`http://127.0.0.1:5000/delete/user/${id}`)
+        window.location.replace(`https://stock-watch-news.herokuapp.com/delete/user/${id}`)
     };
 });
 
@@ -122,7 +122,7 @@ $(".remove-stock").on("click", async function(evt) {
     
     const res = await axios.request({
         method: 'POST',
-        url: "http://127.0.0.1:5000/update-watchlist",
+        url: "https://stock-watch-news.herokuapp.com/update-watchlist",
         params: {watchlist: $watchlistId, ticker: $ticker}})
 
     row.remove()
