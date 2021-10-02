@@ -12,11 +12,8 @@ from werkzeug.wrappers import response
 
 from forms import UserSignup, LoginForm, WatchlistForm
 from models import db, connect_db, User, Watchlist
-# from keys import api_key, Password
-
 
 CURR_USER_KEY = "curr_user"
-
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -115,7 +112,6 @@ def logout():
     flash(f"Logged Out! Thanks for visiting!", "green")
     return redirect('/')
 
-
 ##############################################################################
 # Stock route
 
@@ -131,7 +127,6 @@ def stock_details(stock_ticker):
     """Fetch data from API about stock and display the data."""
     stock_ticker = stock_ticker.upper()
     
-
     URL = "https://yh-finance.p.rapidapi.com/stock/v2/get-summary"
     querystring = {"symbol":f"{stock_ticker}", "region":"US"}
     headers = {
@@ -146,13 +141,11 @@ def stock_details(stock_ticker):
     newsResponse = requests.request("GET", 'https://yh-finance.p.rapidapi.com/auto-complete', headers=headers, params={"q":f"{stock_ticker}", "region":"US"})
     news = json.loads(newsResponse.text)
                                 
-
     stock = json.loads(response.text)
     return render_template('stock.html', stock=stock, news=news)
 
 ##############################################################################
 # Routes for logged in 'Users'
-
 
 @app.route('/create/watchlist', methods=["GET", "POST"])
 def watchlists():
@@ -283,8 +276,3 @@ def page_not_found(e):
     """404 NOT FOUND page."""
 
     return render_template('404.html'), 404
-
-# @app.errorhandler(UndefinedError)
-# def undefinded_error(e):
-#     flash("Server is down or you entered an invalid term!", "red")
-#     return redirect("/")

@@ -12,7 +12,7 @@ of their stocks on one page.
 - Watchlist page
   - Each user created watchlist has its own page where a short summary of the stocks daily performance is displayed.
 
-These are the three main features I chose for my website. I thought that overall these were the most basic and important features
+These are the three main features I chose for my website. Overall these were the most basic and important features
 to include in a website like this.
 
 ## User flow / Structure
@@ -27,7 +27,7 @@ to include in a website like this.
 ## API - Yahoo Finance API https://rapidapi.com/apidojo/api/yahoo-finance1/
 
 This API is very thorough and contains a multitude of endpoints. I chose this api because it is free and also very easy to use
-dispite being very information dense.
+despite being very information dense.
 
 ## Project Tools and Dependencies
 
@@ -42,3 +42,9 @@ dispite being very information dense.
   - WTForms
   - Bcrypt
 - Postgresql
+
+## Testing
+
+If you would like to explore and test my website without making an account you can use a test user account.
+- username: testuser
+- password: testuser

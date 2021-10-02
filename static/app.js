@@ -19,7 +19,7 @@ $("#add-stock").on("click", "p", async function(evt) {
     
 });
 
-// debouncing functino
+// debouncing function
 const debounce = (func, delay) => {
     let debounceTimer
     return function() {
@@ -39,7 +39,7 @@ debounce($(function(){
                 method: 'GET',
                 url: "https://stock-watch-news.herokuapp.com/search",
                 params: {query: query.term}})
-            console.log(res)
+           
             let stockSuggestions = res.data.quotes;
             let searchTerms = [];
             for (let stock of stockSuggestions) {
