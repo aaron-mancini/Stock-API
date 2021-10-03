@@ -1,5 +1,6 @@
 # Stock Watch
 
+http://stock-watch-news.herokuapp.com/
 Stock Watch is a web app that allows users to view information about stocks and create customized watchlists to track all
 of their stocks on one page.
 
