@@ -276,3 +276,9 @@ def page_not_found(e):
     """404 NOT FOUND page."""
 
     return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    """Internal server error."""
+    flash("Error, Server down or invalid term", "red")
+    return redirect('/')

@@ -1,6 +1,7 @@
 # Stock Watch
 
 http://stock-watch-news.herokuapp.com/
+
 Stock Watch is a web app that allows users to view information about stocks and create customized watchlists to track all
 of their stocks on one page.
 
@@ -43,6 +44,13 @@ despite being very information dense.
   - WTForms
   - Bcrypt
 - Postgresql
+
+## Improvements/Issues
+
+- Currently there is no feature to change password or adjust account settings. This was something intentionaly left out
+  as it is not a main feature or required for user functionality demonstrations.
+- There is a lot of unused data from the Finance API. It would be nice to have a stock chart based on weelky reports or
+  something like that.
 
 ## Testing
 
